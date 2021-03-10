@@ -866,8 +866,10 @@ type Entity struct {
 type EntityGrant struct {
   Data                             map[string]interface{}             `json:"data,omitempty"`
   Id                               string                             `json:"id,omitempty"`
+  InsertInstant                    int64                              `json:"insertInstant,omitempty"`
+  LastUpdateInstant                int64                              `json:"lastUpdateInstant,omitempty"`
   Permissions                      []string                           `json:"permissions,omitempty"`
-  TargetEntityId                   string                             `json:"targetEntityId,omitempty"`
+  RecipientEntityId                string                             `json:"recipientEntityId,omitempty"`
   UserId                           string                             `json:"userId,omitempty"`
 }
 
@@ -911,6 +913,7 @@ type EntityType struct {
   Data                             map[string]interface{}             `json:"data,omitempty"`
   Id                               string                             `json:"id,omitempty"`
   InsertInstant                    int64                              `json:"insertInstant,omitempty"`
+  JwtConfiguration                 JWTConfiguration                   `json:"jwtConfiguration,omitempty"`
   LastUpdateInstant                int64                              `json:"lastUpdateInstant,omitempty"`
   Name                             string                             `json:"name,omitempty"`
   Permissions                      []EntityTypePermission             `json:"permissions,omitempty"`
@@ -1900,6 +1903,15 @@ type JWTConfiguration struct {
 }
 
 /**
+ * JWT Configuration for entities.
+ */
+type JWTConfiguration struct {
+  Enableable
+  AccessTokenKeyId                 string                             `json:"accessTokenKeyId,omitempty"`
+  TimeToLiveInSeconds              int                                `json:"timeToLiveInSeconds,omitempty"`
+}
+
+/**
  * Models the JWT public key Refresh Token Revoke Event (and can be converted to JSON). This event might be for a single
  * token, a user or an entire application.
  *
@@ -2460,8 +2472,11 @@ const (
   OAuthErrorReason_InvalidDeviceCode                OAuthErrorReason                   = "invalid_device_code"
   OAuthErrorReason_InvalidUserCode                  OAuthErrorReason                   = "invalid_user_code"
   OAuthErrorReason_InvalidAdditionalClientId        OAuthErrorReason                   = "invalid_additional_client_id"
+  OAuthErrorReason_InvalidTargetEntityScope         OAuthErrorReason                   = "invalid_target_entity_scope"
+  OAuthErrorReason_InvalidEntityPermissionsScope    OAuthErrorReason                   = "invalid_entity_permissions_scope"
   OAuthErrorReason_GrantTypeDisabled                OAuthErrorReason                   = "grant_type_disabled"
   OAuthErrorReason_MissingClientId                  OAuthErrorReason                   = "missing_client_id"
+  OAuthErrorReason_MissingClientSecret              OAuthErrorReason                   = "missing_client_secret"
   OAuthErrorReason_MissingCode                      OAuthErrorReason                   = "missing_code"
   OAuthErrorReason_MissingDeviceCode                OAuthErrorReason                   = "missing_device_code"
   OAuthErrorReason_MissingGrantType                 OAuthErrorReason                   = "missing_grant_type"
@@ -3807,20 +3822,6 @@ func (b *UserDeleteResponse) SetStatus(status int) {
 type UserEmailVerifiedEvent struct {
   BaseEvent
   User                             User                               `json:"user,omitempty"`
-}
-
-/**
- * Models the grant of zero or more permissions to a user for an entity.
- *
- * @author Brian Pontarelli
- */
-type UserEntityGrant struct {
-  Data                             map[string]interface{}             `json:"data,omitempty"`
-  EntityId                         string                             `json:"entityId,omitempty"`
-  InsertInstant                    int64                              `json:"insertInstant,omitempty"`
-  LastUpdateInstant                int64                              `json:"lastUpdateInstant,omitempty"`
-  Permissions                      []string                           `json:"permissions,omitempty"`
-  UserId                           string                             `json:"userId,omitempty"`
 }
 
 /**
