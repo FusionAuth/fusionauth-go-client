@@ -859,6 +859,19 @@ type Entity struct {
 }
 
 /**
+ * A grant for an entity to a user or another entity.
+ *
+ * @author Brian Pontarelli
+ */
+type EntityGrant struct {
+  Data                             map[string]interface{}             `json:"data,omitempty"`
+  Id                               string                             `json:"id,omitempty"`
+  Permissions                      []string                           `json:"permissions,omitempty"`
+  TargetEntityId                   string                             `json:"targetEntityId,omitempty"`
+  UserId                           string                             `json:"userId,omitempty"`
+}
+
+/**
  * Entity API request object.
  *
  * @author Brian Pontarelli
@@ -1499,6 +1512,29 @@ type GoogleIdentityProvider struct {
   ClientId                         string                             `json:"client_id,omitempty"`
   ClientSecret                     string                             `json:"client_secret,omitempty"`
   Scope                            string                             `json:"scope,omitempty"`
+}
+
+/**
+ * Entity grant API request object.
+ *
+ * @author Brian Pontarelli
+ */
+type GrantRequest struct {
+  Grant                            EntityGrant                        `json:"grant,omitempty"`
+}
+
+/**
+ * Entity grant API response object.
+ *
+ * @author Brian Pontarelli
+ */
+type GrantResponse struct {
+  BaseHTTPResponse
+  Grant                            EntityGrant                        `json:"grant,omitempty"`
+  Grants                           []EntityGrant                      `json:"grants,omitempty"`
+}
+func (b *GrantResponse) SetStatus(status int) {
+  b.StatusCode = status
 }
 
 /**
