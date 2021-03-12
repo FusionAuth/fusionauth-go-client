@@ -2372,7 +2372,6 @@ type MultiFactorEmailTemplate struct {
 
 type MultiFactorEmailTransport struct {
   Enableable
-  SendToUnverified                 bool                               `json:"sendToUnverified"`
   TemplateId                       string                             `json:"templateId,omitempty"`
 }
 
@@ -3080,6 +3079,9 @@ type SecureIdentity struct {
   Salt                             string                             `json:"salt,omitempty"`
   TwoFactorDelivery                TwoFactorDelivery                  `json:"twoFactorDelivery,omitempty"`
   TwoFactorEnabled                 bool                               `json:"twoFactorEnabled"`
+  TwoFactorMethods                 []string                           `json:"twoFactorMethods,omitempty"`
+  TwoFactorPreferredMethod         string                             `json:"twoFactorPreferredMethod,omitempty"`
+  TwoFactorRecoveryCodes           []string                           `json:"twoFactorRecoveryCodes,omitempty"`
   TwoFactorSecret                  string                             `json:"twoFactorSecret,omitempty"`
   Username                         string                             `json:"username,omitempty"`
   UsernameStatus                   ContentStatus                      `json:"usernameStatus,omitempty"`
@@ -3215,7 +3217,7 @@ type Templates struct {
   Oauth2Passwordless               string                             `json:"oauth2Passwordless,omitempty"`
   Oauth2Register                   string                             `json:"oauth2Register,omitempty"`
   Oauth2TwoFactor                  string                             `json:"oauth2TwoFactor,omitempty"`
-  Oauth2TwoFactorOptions           string                             `json:"oauth2TwoFactorOptions,omitempty"`
+  Oauth2TwoFactorMethods           string                             `json:"oauth2TwoFactorMethods,omitempty"`
   Oauth2Wait                       string                             `json:"oauth2Wait,omitempty"`
   PasswordChange                   string                             `json:"passwordChange,omitempty"`
   PasswordComplete                 string                             `json:"passwordComplete,omitempty"`
@@ -3476,6 +3478,12 @@ type TwoFactorLoginRequest struct {
   TrustComputer                    bool                               `json:"trustComputer"`
   TwoFactorId                      string                             `json:"twoFactorId,omitempty"`
   UserId                           string                             `json:"userId,omitempty"`
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type TwoFactorMethod struct {
 }
 
 /**
